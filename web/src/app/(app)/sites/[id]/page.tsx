@@ -129,6 +129,13 @@ export default async function SiteDashboard({ params, searchParams }: Props) {
       <p className="text-faint text-center text-xs">
         Times are in {site.timezone}. Visitors are counted per day, so a person who returns on
         another day counts again.
+        <br />
+        {/* The DB-IP Lite licence (CC BY 4.0) asks for this exact attribution. */}
+        Countries:{" "}
+        <a href="https://db-ip.com" className="hover:text-muted-foreground underline">
+          IP Geolocation by DB-IP
+        </a>
+        .
       </p>
     </div>
   );

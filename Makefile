@@ -5,7 +5,7 @@ TEST_DATABASE_URL ?= postgres://tally:tally@127.0.0.1:5442/tally_test?sslmode=di
 DEV_API_SECRET ?= dev-api-secret-0123456789abcdef0123456789
 DEV_ADMIN_PASSWORD_HASH ?= $(shell cat .dev-admin-hash 2>/dev/null)
 
-.PHONY: db db-down migrate run test test-integration lint tracker web-dev check dev-hash
+.PHONY: db db-down migrate seed run test test-integration lint tracker web-dev check dev-hash
 
 db: ## Start the local Postgres
 	docker compose up -d --wait postgres
@@ -15,6 +15,9 @@ db-down:
 
 migrate: ## Apply migrations to the development database
 	DATABASE_URL='$(DEV_DATABASE_URL)' go run ./cmd/migrate up
+
+seed: ## Fill a "Demo" site (demo.example) with 90 days of made-up visits
+	DATABASE_URL='$(DEV_DATABASE_URL)' go run ./tools/seed -yes
 
 dev-hash: ## Create the development admin password hash (.dev-admin-hash, git-ignored)
 	@test -f .dev-admin-hash || (printf 'tally-dev-password\n' | go run ./cmd/server hash-password > .dev-admin-hash)
