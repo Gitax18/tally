@@ -1,0 +1,128 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens, shared with readmely's web app. Light values are the default; the system's dark
+ * setting switches them (there is no in-app toggle: the theme follows the system).
+ */
+:root {
+  --background: #fbfcfd;
+  --foreground: #142126;
+  --card: #ffffff;
+  --card-foreground: #142126;
+  --surface-2: #f4f7f8;
+  --muted-foreground: #5a6b72;
+  --faint: #7d8c92;
+  --border: #dfe6e8;
+  --border-strong: #cbd5d8;
+
+  --accent: #087c72;
+  --accent-hover: #07665f;
+  --accent-foreground: #ffffff;
+  --accent-soft: #e6f4f1;
+
+  --ok: #1b7a5f;
+  --warn: #8a5a0a;
+  --bad: #b83a3a;
+
+  --chart-line: #087c72;
+  --chart-fill: rgb(8 124 114 / 0.12);
+  --chart-previous: #9aa8ab;
+  --chart-grid: #e8eef0;
+
+  --elev-1: 0 1px 2px rgb(19 43 48 / 0.04), 0 8px 24px rgb(19 43 48 / 0.06);
+  --elev-2: 0 18px 50px rgb(19 43 48 / 0.1);
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #101719;
+    --foreground: #f1f5f4;
+    --card: #151f22;
+    --card-foreground: #f1f5f4;
+    --surface-2: #1b282c;
+    --muted-foreground: #9babad;
+    --faint: #758689;
+    --border: #2a393d;
+    --border-strong: #3a4a4e;
+
+    --accent: #58c3b6;
+    --accent-hover: #77d2c8;
+    --accent-foreground: #0b1214;
+    --accent-soft: #193b39;
+
+    --ok: #6fd1ad;
+    --warn: #e3b25e;
+    --bad: #f08a8a;
+
+    --chart-line: #58c3b6;
+    --chart-fill: rgb(88 195 182 / 0.14);
+    --chart-previous: #5f7175;
+    --chart-grid: #223034;
+
+    --elev-1: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px rgb(0 0 0 / 0.25);
+    --elev-2: 0 18px 50px rgb(0 0 0 / 0.35);
+
+    color-scheme: dark;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-surface-2: var(--surface-2);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-faint: var(--faint);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-soft: var(--accent-soft);
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --color-bad: var(--bad);
+
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-dm-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --radius-card: 0.75rem;
+  --radius-control: 0.4375rem;
+
+  --shadow-soft: var(--elev-1);
+  --shadow-lift: var(--elev-2);
+
+  --animate-fade-in: fade-in 0.2s ease-out both;
+  --animate-pulse-soft: pulse-soft 2s ease-in-out infinite;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes pulse-soft {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.45;
+    }
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Numbers line up in tables and cards. */
+.tabular {
+  font-variant-numeric: tabular-nums;
+}

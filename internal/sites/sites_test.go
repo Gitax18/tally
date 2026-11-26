@@ -90,6 +90,30 @@ func TestStoreCRUD(t *testing.T) {
 		t.Fatalf("want a timezone validation error, got %v", err)
 	}
 
+	// Browsers report some zones by legacy names that Postgres may not know; the current name
+	// is stored, and Postgres must accept whatever is stored.
+	legacy, err := s.Create(ctx, "Legacy", "legacy.example", "Asia/Calcutta")
+	if err != nil || legacy.Timezone != "Asia/Kolkata" {
+		t.Fatalf("legacy zone: %+v %v", legacy, err)
+	}
+	zones, err := s.Timezones(ctx)
+	if err != nil || len(zones) < 300 || zones[0] != "UTC" {
+		t.Fatalf("timezones: %d %v", len(zones), err)
+	}
+	for _, z := range zones {
+		if _, ok := LegacyZones[z]; ok {
+			t.Errorf("the picker offers the legacy name %s", z)
+		}
+	}
+	for _, z := range []string{zones[1], zones[len(zones)/2], zones[len(zones)-1], legacy.Timezone} {
+		if _, err := pool.Exec(ctx, `SELECT now() AT TIME ZONE $1::text`, z); err != nil {
+			t.Errorf("Postgres rejects %s: %v", z, err)
+		}
+	}
+	if err := s.Delete(ctx, legacy.ID); err != nil {
+		t.Fatal(err)
+	}
+
 	name := "My blog"
 	updated, err := s.Update(ctx, site.ID, Patch{Name: &name})
 	if err != nil || updated.Name != "My blog" || updated.Domain != "example.com" {

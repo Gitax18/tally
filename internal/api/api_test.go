@@ -115,6 +115,7 @@ func TestSitesAndStatsEndpoints(t *testing.T) {
 		base + "/breakdown?period=30d&dimension=entry_page",
 		base + "/realtime",
 		"/v1/usage",
+		"/v1/timezones",
 	} {
 		if code, body := h.do("GET", path, ""); code != http.StatusOK {
 			t.Errorf("GET %s: %d %v", path, code, body)

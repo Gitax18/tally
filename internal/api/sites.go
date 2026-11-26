@@ -84,3 +84,13 @@ func (h *handlers) deleteSite(w http.ResponseWriter, r *http.Request) {
 	}
 	w.WriteHeader(http.StatusNoContent)
 }
+
+// timezones lists the zones a site can use, and the legacy names browsers may report for them.
+func (h *handlers) timezones(w http.ResponseWriter, r *http.Request) {
+	zones, err := h.d.Sites.Timezones(r.Context())
+	if err != nil {
+		h.writeStoreError(w, r, err)
+		return
+	}
+	httpx.WriteJSON(w, http.StatusOK, map[string]any{"timezones": zones, "aliases": sites.LegacyZones})
+}

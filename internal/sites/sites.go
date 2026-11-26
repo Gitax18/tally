@@ -133,20 +133,6 @@ func validateName(name string) (string, error) {
 	return name, nil
 }
 
-func validateTimezone(tz string) (string, error) {
-	tz = strings.TrimSpace(tz)
-	if tz == "" {
-		return "UTC", nil
-	}
-	if tz == "Local" {
-		return "", &ValidationError{"timezone", "choose a time zone such as Europe/Berlin"}
-	}
-	if _, err := time.LoadLocation(tz); err != nil {
-		return "", &ValidationError{"timezone", "unknown time zone; use an IANA name such as Europe/Berlin"}
-	}
-	return tz, nil
-}
-
 // Store reads and writes sites.
 type Store struct {
 	pool   *pgxpool.Pool
@@ -157,6 +143,8 @@ type Store struct {
 
 	touchMu sync.Mutex
 	touched map[string]time.Time
+
+	zones zoneCache
 }
 
 // NewStore returns a store. Call Refresh before serving events.
@@ -212,7 +200,7 @@ func (s *Store) Create(ctx context.Context, name, domain, timezone string) (Site
 	if err != nil {
 		return Site{}, err
 	}
-	timezone, err = validateTimezone(timezone)
+	timezone, err = s.validTimezone(ctx, timezone)
 	if err != nil {
 		return Site{}, err
 	}
@@ -250,7 +238,7 @@ func (s *Store) Update(ctx context.Context, id string, p Patch) (Site, error) {
 		}
 	}
 	if p.Timezone != nil {
-		if site.Timezone, err = validateTimezone(*p.Timezone); err != nil {
+		if site.Timezone, err = s.validTimezone(ctx, *p.Timezone); err != nil {
 			return Site{}, err
 		}
 	}

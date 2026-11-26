@@ -71,6 +71,7 @@ func Router(d Deps) http.Handler {
 		if d.Usage != nil {
 			v1.Method(http.MethodGet, "/usage", d.Usage)
 		}
+		v1.Get("/timezones", h.timezones)
 		v1.Get("/sites", h.listSites)
 		v1.Post("/sites", h.createSite)
 		v1.Get("/sites/{id}", h.getSite)
