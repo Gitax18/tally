@@ -9,12 +9,14 @@ import (
 	"log/slog"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/go-chi/chi/v5"
 
 	"github.com/Gitax18/tally/internal/httpx"
 	"github.com/Gitax18/tally/internal/ingest"
 	"github.com/Gitax18/tally/internal/sites"
+	"github.com/Gitax18/tally/internal/stats"
 )
 
 // maxJSONBytes bounds request bodies of the private API.
@@ -26,8 +28,10 @@ type Deps struct {
 	APISecret string
 	Ingest    *ingest.Handler
 	Sites     *sites.Store
+	Stats     *stats.Service
 	Login     http.HandlerFunc
-	Usage     http.HandlerFunc
+	Usage     http.Handler
+	Now       func() time.Time // the clock for periods; time.Now when nil
 }
 
 // Router returns the service's handler.
@@ -65,13 +69,17 @@ func Router(d Deps) http.Handler {
 			v1.Post("/login", d.Login)
 		}
 		if d.Usage != nil {
-			v1.Get("/usage", d.Usage)
+			v1.Method(http.MethodGet, "/usage", d.Usage)
 		}
 		v1.Get("/sites", h.listSites)
 		v1.Post("/sites", h.createSite)
 		v1.Get("/sites/{id}", h.getSite)
 		v1.Patch("/sites/{id}", h.updateSite)
 		v1.Delete("/sites/{id}", h.deleteSite)
+		v1.Get("/sites/{id}/summary", h.summary)
+		v1.Get("/sites/{id}/timeseries", h.timeseries)
+		v1.Get("/sites/{id}/breakdown", h.breakdown)
+		v1.Get("/sites/{id}/realtime", h.realtime)
 	})
 
 	r.NotFound(func(w http.ResponseWriter, _ *http.Request) { httpx.WriteError(w, http.StatusNotFound, "not_found") })

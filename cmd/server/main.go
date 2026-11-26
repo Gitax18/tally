@@ -33,6 +33,7 @@ import (
 	"github.com/Gitax18/tally/internal/ratelimit"
 	"github.com/Gitax18/tally/internal/retention"
 	"github.com/Gitax18/tally/internal/sites"
+	"github.com/Gitax18/tally/internal/stats"
 	"github.com/Gitax18/tally/internal/visitor"
 )
 
@@ -109,6 +110,8 @@ func run(ctx context.Context, args []string, getenv func(string) string, stdin i
 		Logger:    logger,
 		APISecret: cfg.APISecret,
 		Sites:     siteStore,
+		Stats:     stats.New(pool),
+		Usage:     &api.Usage{Pool: pool, LimitBytes: cfg.DBLimitBytes, Counters: counters, Queued: worker.Len},
 		Ingest: &ingest.Handler{
 			Sites:    siteStore,
 			Salts:    salts,

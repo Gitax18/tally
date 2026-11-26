@@ -24,7 +24,12 @@ func (h *handlers) listSites(w http.ResponseWriter, r *http.Request) {
 	}
 	out := make([]siteWithStats, 0, len(list))
 	for _, s := range list {
-		out = append(out, siteWithStats{Site: s, Sparkline: []int64{}})
+		visitors, spark, err := h.d.Stats.Overview(r.Context(), statsSite(s), h.now())
+		if err != nil {
+			h.writeStoreError(w, r, err)
+			return
+		}
+		out = append(out, siteWithStats{Site: s, Visitors24h: visitors, Sparkline: spark})
 	}
 	httpx.WriteJSON(w, http.StatusOK, map[string]any{"sites": out})
 }
