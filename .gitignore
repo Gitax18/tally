@@ -1,0 +1,30 @@
+# Go
+/bin/
+*.test
+*.out
+coverage.*
+
+# Local data
+/data/
+*.mmdb
+*.mmdb.gz
+.env
+.env.local
+
+# Web
+node_modules/
+.next/
+out/
+web/next-env.d.ts
+web/tsconfig.tsbuildinfo
+web/test-results/
+web/playwright-report/
+.vercel
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/
+
+# Development admin password hash (make dev-hash)
+.dev-admin-hash

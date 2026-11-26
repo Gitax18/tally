@@ -1,0 +1,32 @@
+version: "2"
+
+linters:
+  default: standard
+  enable:
+    - bodyclose
+    - errorlint
+    - gosec
+    - misspell
+    - noctx
+    - unconvert
+  settings:
+    errcheck:
+      check-blank: false
+    gosec:
+      excludes:
+        # Integer conversions are bounds-checked where the input comes from outside.
+        - G115
+  exclusions:
+    rules:
+      # Fake secrets in test fixtures.
+      - path: _test\.go
+        linters: [gosec]
+        text: G101
+      # httptest.NewRequest has no context and does not need one.
+      - path: _test\.go
+        linters: [noctx]
+
+formatters:
+  enable:
+    - gofmt
+    - goimports
