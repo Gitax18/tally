@@ -1,0 +1,31 @@
+{
+  "name": "tally",
+  "description": "Self-hosted, cookie-free web analytics: the tracker, event collector and stats API. The dashboard runs separately on Vercel.",
+  "repository": "https://github.com/Gitax18/tally",
+  "keywords": ["analytics", "privacy", "go", "postgres", "self-hosted"],
+  "buildpacks": [{ "url": "heroku/go" }],
+  "formation": {
+    "web": { "quantity": 1, "size": "basic" }
+  },
+  "addons": [{ "plan": "heroku-postgresql:essential-0" }],
+  "env": {
+    "API_SECRET": {
+      "description": "Shared secret for the dashboard's calls to /v1. Generated for you; copy it into the dashboard's API_SECRET on Vercel.",
+      "generator": "secret"
+    },
+    "ADMIN_PASSWORD_HASH": {
+      "description": "The dashboard password, hashed. Make it with `go run github.com/Gitax18/tally/cmd/server@latest hash-password` (or `go run ./cmd/server hash-password` in a clone) and paste the whole scrypt$... line.",
+      "required": true
+    },
+    "RETENTION_MONTHS": {
+      "description": "Events and visits older than this many months are deleted daily.",
+      "value": "24",
+      "required": false
+    },
+    "DB_LIMIT_MB": {
+      "description": "Your Postgres plan's storage limit in MB, for the dashboard's storage meter (Essential-0: 1024, Essential-1: 10240).",
+      "value": "1024",
+      "required": false
+    }
+  }
+}
