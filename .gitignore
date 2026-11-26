@@ -28,3 +28,6 @@ web/playwright-report/
 
 # Development admin password hash (make dev-hash)
 .dev-admin-hash
+
+# Private planning notes (never pushed)
+/plan.md

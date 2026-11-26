@@ -1,0 +1,288 @@
+<!doctype html>
+<!-- Source of the README banners. Render with: node web/scripts/banner.mjs -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=block"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg-a: #fbfcfd;
+        --bg-b: #e9f5f2;
+        --grid: rgba(8, 124, 114, 0.07);
+        --fg: #142126;
+        --muted: #4b5f66;
+        --accent: #087c72;
+        --accent-soft: #e6f4f1;
+        --card: #ffffff;
+        --border: #dbe5e7;
+        --dash: #9aaab0;
+        --good: #0f7b4f;
+        --shadow: 0 24px 48px -24px rgba(20, 33, 38, 0.25);
+      }
+      :root[data-theme="dark"] {
+        --bg-a: #0d1416;
+        --bg-b: #12211f;
+        --grid: rgba(88, 195, 182, 0.07);
+        --fg: #f1f5f4;
+        --muted: #9fb0b4;
+        --accent: #58c3b6;
+        --accent-soft: #193b39;
+        --card: #151f22;
+        --border: #24343a;
+        --dash: #5d7077;
+        --good: #5fd39a;
+        --shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.6);
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      body {
+        background: transparent;
+        font-family: Manrope, sans-serif;
+      }
+      #banner {
+        position: relative;
+        width: 1280px;
+        height: 400px;
+        overflow: hidden;
+        border-radius: 24px;
+        background:
+          linear-gradient(var(--grid) 1px, transparent 1px) 0 0 / 40px 40px,
+          linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0 / 40px 40px,
+          linear-gradient(120deg, var(--bg-a) 30%, var(--bg-b));
+        border: 1px solid var(--border);
+        color: var(--fg);
+        display: flex;
+        align-items: center;
+        padding: 0 72px;
+        gap: 56px;
+      }
+      .copy {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+      .brand svg {
+        width: 64px;
+        height: 64px;
+      }
+      .brand span {
+        font-size: 64px;
+        font-weight: 600;
+        letter-spacing: -0.03em;
+        line-height: 1;
+      }
+      h1 {
+        font-size: 30px;
+        font-weight: 600;
+        letter-spacing: -0.015em;
+        line-height: 1.25;
+      }
+      p {
+        font-size: 18px;
+        color: var(--muted);
+        line-height: 1.5;
+        max-width: 520px;
+      }
+      .chips {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .chip {
+        font-family: "DM Mono", monospace;
+        font-size: 14px;
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-weight: 500;
+      }
+      .card {
+        width: 500px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        box-shadow: var(--shadow);
+        padding: 22px 24px 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+      .metric .label {
+        font-size: 11px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .metric .value {
+        font-size: 26px;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        margin-top: 4px;
+        font-variant-numeric: tabular-nums;
+      }
+      .metric .value small {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--good);
+        margin-left: 6px;
+        letter-spacing: 0;
+      }
+      .live {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+      #footer {
+        width: 1280px;
+        height: 150px;
+        border-radius: 20px;
+        border: 1px solid var(--border);
+        background:
+          linear-gradient(var(--grid) 1px, transparent 1px) 0 0 / 40px 40px,
+          linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0 / 40px 40px,
+          linear-gradient(120deg, var(--bg-b), var(--bg-a) 70%);
+        color: var(--fg);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 64px;
+        margin-top: 40px;
+      }
+      #footer .brand svg {
+        width: 40px;
+        height: 40px;
+      }
+      #footer .brand span {
+        font-size: 36px;
+      }
+      #footer h2 {
+        font-size: 24px;
+        font-weight: 600;
+        letter-spacing: -0.015em;
+      }
+      #footer h2 em {
+        font-style: normal;
+        color: var(--accent);
+      }
+      .live i {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--accent);
+        box-shadow: 0 0 0 4px var(--accent-soft);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="banner">
+      <div class="copy">
+        <div class="brand">
+          <svg viewBox="0 0 32 32" aria-hidden="true">
+            <rect width="32" height="32" rx="7" fill="var(--accent)" />
+            <path
+              d="M9 22V14M14 22V10M19 22V16M24 22V12"
+              stroke="var(--card)"
+              stroke-width="3"
+              stroke-linecap="round"
+            />
+          </svg>
+          <span>tally</span>
+        </div>
+        <h1>Self-hosted, cookie-free web analytics.</h1>
+        <p>
+          One line of script per site, a private dashboard, and nothing stored that could identify a
+          visitor. Go, Postgres and Next.js.
+        </p>
+        <div class="chips">
+          <span class="chip">no cookies</span>
+          <span class="chip">no stored IPs</span>
+          <span class="chip">&lt;1 KB tracker</span>
+          <span class="chip">MIT</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="metrics">
+          <div class="metric">
+            <div class="label">Visitors</div>
+            <div class="value">3.4K<small>+36%</small></div>
+          </div>
+          <div class="metric">
+            <div class="label">Pageviews</div>
+            <div class="value">8.4K<small>+35%</small></div>
+          </div>
+          <div class="metric">
+            <div class="label">Duration</div>
+            <div class="value">1m 11s</div>
+          </div>
+        </div>
+        <svg viewBox="0 0 452 150" width="452" height="150" aria-hidden="true">
+          <defs>
+            <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="var(--accent)" stop-opacity="0.22" />
+              <stop offset="1" stop-color="var(--accent)" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <g stroke="var(--border)" stroke-width="1">
+            <line x1="0" x2="452" y1="20" y2="20" />
+            <line x1="0" x2="452" y1="65" y2="65" />
+            <line x1="0" x2="452" y1="110" y2="110" />
+          </g>
+          <path
+            d="M0 122 C 25 121, 50 118, 75 119 S 115 124, 140 120 S 180 112, 205 115 S 245 118, 270 113 S 310 109, 335 111 S 375 114, 400 108 S 435 104, 452 106"
+            fill="none"
+            stroke="var(--dash)"
+            stroke-width="2"
+            stroke-dasharray="5 6"
+          />
+          <path
+            d="M0 112 C 22 110, 40 106, 62 109 S 98 120, 118 114 S 140 22, 160 22 S 182 96, 204 106 S 244 100, 268 102 S 300 92, 322 95 S 356 104, 378 92 S 420 82, 452 88 L 452 150 L 0 150 Z"
+            fill="url(#fill)"
+          />
+          <path
+            d="M0 112 C 22 110, 40 106, 62 109 S 98 120, 118 114 S 140 22, 160 22 S 182 96, 204 106 S 244 100, 268 102 S 300 92, 322 95 S 356 104, 378 92 S 420 82, 452 88"
+            fill="none"
+            stroke="var(--accent)"
+            stroke-width="2.75"
+            stroke-linecap="round"
+          />
+        </svg>
+        <div class="live"><i></i>3 current visitors</div>
+      </div>
+    </div>
+    <div id="footer">
+      <div class="brand">
+        <svg viewBox="0 0 32 32" aria-hidden="true">
+          <rect width="32" height="32" rx="7" fill="var(--accent)" />
+          <path
+            d="M9 22V14M14 22V10M19 22V16M24 22V12"
+            stroke="var(--card)"
+            stroke-width="3"
+            stroke-linecap="round"
+          />
+        </svg>
+        <span>tally</span>
+      </div>
+      <h2>Your analytics. Your database. <em>Nobody else's.</em></h2>
+    </div>
+  </body>
+</html>
