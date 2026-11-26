@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>tally demo</title>
+    <style>
+      body { font: 16px/1.5 system-ui, sans-serif; max-width: 40rem; margin: 3rem auto; padding: 0 1rem; color: #142126; }
+      nav { display: flex; gap: 1rem; flex-wrap: wrap; margin: 1.5rem 0; }
+      a, button { color: #087c72; }
+      button { font: inherit; background: none; border: 1px solid #087c72; border-radius: 6px; padding: 0.25rem 0.75rem; cursor: pointer; }
+      #status { font-size: 0.875rem; color: #5a6b72; }
+      #view { padding: 1rem; border: 1px solid #dfe6e8; border-radius: 8px; }
+    </style>
+  </head>
+  <body>
+    <h1>tally demo</h1>
+    <p id="status">Loading…</p>
+
+    <p>
+      The buttons below change the URL with <code>history.pushState</code>, like a single-page app.
+      Each one should record one pageview. The link to page 2 is a normal page load.
+    </p>
+    <nav>
+      <button data-path="/spa/about" data-testid="spa-about">SPA: about</button>
+      <button data-path="/spa/pricing" data-testid="spa-pricing">SPA: pricing</button>
+      <button data-path="/spa/pricing" data-testid="spa-pricing-again">SPA: pricing again (same path, not counted)</button>
+      <button data-back data-testid="spa-back">Back (popstate)</button>
+      <a href="/page2.html" data-testid="page2">Page 2 (full load)</a>
+    </nav>
+    <div id="view" data-testid="view">Home</div>
+
+    <script src="load.js"></script>
+    <script>
+      var view = document.getElementById("view");
+      function render() {
+        view.textContent = location.pathname.startsWith("/spa/") ? location.pathname.slice(5) : "Home";
+      }
+      document.querySelectorAll("button[data-path]").forEach(function (b) {
+        b.addEventListener("click", function () {
+          history.pushState({}, "", b.dataset.path);
+          render();
+        });
+      });
+      document.querySelector("button[data-back]").addEventListener("click", function () {
+        history.back();
+      });
+      window.addEventListener("popstate", render);
+    </script>
+  </body>
+</html>
